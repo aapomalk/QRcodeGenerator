@@ -16,6 +16,9 @@ public class QRcodeGenerator {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        QRcode code = new QRcode(3, ErrorLevel.L, 0);
+        code.add_data("Hello World!".getBytes());
+        System.out.println(code);
     }
     
 }
