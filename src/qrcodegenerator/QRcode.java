@@ -168,7 +168,7 @@ public class QRcode {
                         if (b>=bytes.length) {
                             continue;
                         }
-                        if ((bytes[b] & (1 << c))==0) {
+                        if ((bytes[b] & (1 << 7-c))==0) {
                             squares[i][j] = 1;
                         }
                         n++;
