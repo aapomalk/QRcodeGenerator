@@ -57,4 +57,12 @@ public class Binary {
     public int length() {
         return length;
     }
+    
+    public String toString() {
+        String ret = "";
+        for (byte bit : bits) {
+            ret += Integer.toBinaryString((bit & 0xFF) + 0x100).substring(1);
+        }
+        return ret;
+    }
 }

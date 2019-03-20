@@ -5,6 +5,10 @@
  */
 package qrcodegenerator;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author aapom
@@ -168,7 +172,7 @@ public class QRcode {
                         if (b>=bytes.length) {
                             continue;
                         }
-                        if ((bytes[b] & (1 << 7-c))==0) {
+                        if ((bytes[b] & (1 << 7-c))>0) {
                             squares[i][j] = 1;
                         }
                         n++;
@@ -263,6 +267,26 @@ public class QRcode {
             ret += "\n";
         }
         return ret;
+    }
+    
+    public void toFile(String filename) {
+        File f = new File(filename);
+        BufferedImage bufferedImage = new BufferedImage(size+8, size+8, BufferedImage.TYPE_INT_RGB);
+        
+        for (int i=0; i<size+8; i++) {
+            for (int j=0; j<size+8; j++) {
+                if (i < 4 || i >= size + 4 || 
+                        j < 4 || j >= size + 4 || squares[j-4][i-4] == 0) {
+                    bufferedImage.setRGB(i, j, (255<<16)+(255<<8)+255);
+                }
+            }
+        }
+        
+        try {
+            ImageIO.write(bufferedImage, "png", f);
+        } catch (Exception e) {
+            
+        }
     }
 
     public String toNumbers() {
