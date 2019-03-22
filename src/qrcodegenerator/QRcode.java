@@ -150,10 +150,12 @@ public class QRcode {
         return true;
     }
 
-    public void add_data(byte[] bytes) {
+    public void add_data(Binary bin) {
+        byte[] bytes = bin.bits();
         clear();
         int a = 0;
         int n = 0;
+        outerloop:
         for (int x = size - 1; x >= 0; x -= 2) {
             if (x==6) {
                 x=5;
@@ -166,6 +168,9 @@ public class QRcode {
                 for (int k=0; k<2; k++) {
                     int j=x-k;
                     int i=z;
+                    if (n >= bin.length()) {
+                        break outerloop;
+                    }
                     if (data_position(i,j)) {
                         int b = n/8;
                         int c = n%8;

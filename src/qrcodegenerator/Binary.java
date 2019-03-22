@@ -5,6 +5,8 @@
  */
 package qrcodegenerator;
 
+import java.util.List;
+
 /**
  *
  * @author aapom
@@ -28,13 +30,20 @@ public class Binary {
         }
     }
     
-    public Binary combine(Binary first, Binary second) {
+    public Binary cut(int length) {
+        if (length >= this.length) {
+            return this;
+        }
+        return new Binary(this.bits, length);
+    }
+    
+    public static Binary combine(Binary first, Binary second) {
         byte[] f = first.bits();
         byte[] s = second.bits();
-        int l = first.length()+second.length();
-        byte[] t = new byte[l/8+1];
+        int len = first.length()+second.length();
+        byte[] t = new byte[len/8+1];
         
-        for (int i=0; i<l; i++) {
+        for (int i=0; i<len; i++) {
             if (i<first.length()) {
                 if ((f[i/8] & (1 << 7-(i%8))) > 0) {
                     t[i/8] += (1 << 7-(i%8));
@@ -47,8 +56,16 @@ public class Binary {
             }
         }
         
-        return new Binary(t, l);
+        return new Binary(t, len);
     }
+
+	public static Binary combine(List<Binary> many) {
+		Binary ret = new Binary(0, 0);
+		for (Binary b : many) {
+			ret = Binary.combine(ret, b);
+		}
+		return ret;
+	}
     
     public byte[] bits() {
         return bits;
@@ -58,6 +75,7 @@ public class Binary {
         return length;
     }
     
+    @Override
     public String toString() {
         String ret = "";
         for (byte bit : bits) {
