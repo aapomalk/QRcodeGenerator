@@ -93,18 +93,20 @@ public enum AlphaNumeric {
 		Binary ret = new Binary(0, 0);
 		for (int i=0; i<text.length(); i += 2) {
 			int num = 0;
+                        Binary add;
 			if (i < text.length()-1) {
 				num = 45 * getNum(text.charAt(i)+"");
 				if (num < 0) return null;
 				int temp = getNum(text.charAt(i+1)+"");
 				if  (temp < 0) return null;
 				num += temp;
+                                add = new Binary(num, 11);
 			} else {
 				num = getNum(text.charAt(i)+"");
 				if (num < 0) return null;
+                                add = new Binary(num, 6);
 			}
-			Binary add = new Binary(num, 11);
-			ret = ret.combine(ret, add);
+			ret = Binary.combine(ret, add);
 		}
 		return ret;
 	}
