@@ -13,6 +13,7 @@ import java.util.Arrays;
  */
 public class QRcodeGenerator {
 	// http://geo.arisoft.fi/GC366ZB/3-3-2-3-5.png
+    // http://geo.arisoft.fi/GC366ZB/23-23-7-21-21.png
     /**
      * @param args the command line arguments
      */
@@ -24,8 +25,9 @@ public class QRcodeGenerator {
         String hello = "http://geo.arisoft.fi";
         Binary length = new Binary(hello.length(), 8);
 		
-		String web_end = "/GC366ZB/3-3-2-3-5.";
+		String web_end = "/GC366ZB/23-23-7-21-21.";//"/00-00-00-00-0.";
 		Binary mode2 = new Binary(0b0010, 4);
+                // Binary mode2 = new Binary(0b0000, 4);
 		Binary length2 = new Binary(web_end.length(), 9);
 		Binary web = AlphaNumeric.getBinary(web_end);
 
@@ -48,11 +50,11 @@ public class QRcodeGenerator {
 													mode_end
 													));
         Binary padded = new Binary(comb2.bits(), ((comb2.length()-1)/8)*8+8);
-        comb2 = Binary.combine(Arrays.asList(padded, fill, fill, fill, 
-											 fill, fill, fill, fill, 
-											 fill, fill, fill, fill, 
-											 fill, fill, fill, fill));
-        comb2 = comb2.cut(55*8);
+        // comb2 = Binary.combine(Arrays.asList(padded, fill, fill, fill, 
+		// 									 fill, fill, fill, fill, 
+		// 									 fill, fill, fill, fill, 
+		// 									 fill, fill, fill, fill));
+        // comb2 = comb2.cut(55*8);
         // comb2 = padded;
         
         System.out.println(comb2);
